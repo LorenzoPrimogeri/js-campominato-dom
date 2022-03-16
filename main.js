@@ -3,6 +3,7 @@ let colonne;
 let difficolta;
 let numeriEstratti = [];
 let bombe = [];
+const grid = document.getElementById("Grid");
 do {
     difficolta = parseInt(prompt("scegli difficolta da 1 a 3"));
 } while (difficolta < 1 || difficolta > 3 || isNaN(difficolta));
@@ -49,20 +50,20 @@ function creazioneCelle(difficolta) {
 bombe = generateBombs(1, totCell, bombe);
 console.log(bombe);
 for (let index = 1; index <= totCell; index++) {
-    const grid = document.getElementById("Grid");
     const cell = creazioneCelle(difficolta, bombe);
     cell.innerText = index;
     cell.id = 'cell-' + index;
     cell.addEventListener('click', function () {
-        cell.classList.toggle("bg-acqua");
+        cell.classList.toggle("bg-lightgreen");
     })
     grid.appendChild(cell);
 }
 for (let index = 1; index <= totCell; index++) {
     let verifica = document.getElementById("cell-" + index);
     verifica.addEventListener('click', function () {
-        if (verifica.includes(bombe)) {
-            verifica.classList.add("bg-red")
+        let isbomb = bombe.includes(index);
+        if (isbomb) {
+            verifica.classList.add("bg-red");
         }
     })
 }   
