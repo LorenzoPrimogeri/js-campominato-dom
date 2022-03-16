@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.difficolta-1{
+    width: 10%;
+    height: 10%;
+}
+.difficolta-2{
+    width: calc(100%/9);
+    height: calc(100%/9);
+}
+.difficolta-3{
+    width: calc(100%/7);
+    height: calc(100%/7);
+}
+#Grid{
+   width: 800px;
+   height: 800px;
+    margin: 50px auto;
+    background-color: yellowgreen;
+    display: flex;
+    flex-wrap: wrap;
+}
+.bg-acqua{
+    background-color: aqua;
+}
+.cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    
+}
