@@ -4,7 +4,7 @@ let difficolta;
 let numeriEstratti = [];
 let bombe = [];
 const grid = document.getElementById("Grid");
-const defeat = document.getElementById("Defeat")
+
 do {
     difficolta = parseInt(prompt("scegli difficolta da 1 a 3"));
 } while (difficolta < 1 || difficolta > 3 || isNaN(difficolta));
@@ -62,11 +62,15 @@ for (let index = 1; index <= totCell; index++) {
 for (let index = 1; index <= totCell; index++) {
     let verifica = document.getElementById("cell-" + index);
     verifica.addEventListener('click', function () {
+        let punti = 0;
+        const defeat = document.getElementById("Defeat")
         let isbomb = bombe.includes(index);
         if (isbomb) {
             verifica.classList.add("bg-red");
-            defeat.classList.remove("show");
-            
+            defeat.classList.remove("d-none");
+        } else {
+            punti++;
         }
+        console.log(punti);
     })
 }   
