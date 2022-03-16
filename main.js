@@ -61,6 +61,8 @@ for (let index = 1; index <= totCell; index++) {
 for (let index = 1; index <= totCell; index++) {
     let verifica = document.getElementById("cell-" + index);
     verifica.addEventListener('click', function () {
-        
+        if (verifica.includes(bombe)) {
+            verifica.classList.add("bg-red")
+        }
     })
 }   

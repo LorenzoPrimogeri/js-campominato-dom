@@ -26,6 +26,9 @@
 .bg-acqua{
     background-color: aqua;
 }
+.bg-red{
+    background-color: red;
+}
 .cell{
     display: flex;
     justify-content: center;
