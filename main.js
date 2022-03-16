@@ -4,6 +4,7 @@ let difficolta;
 let numeriEstratti = [];
 let bombe = [];
 const grid = document.getElementById("Grid");
+const defeat = document.getElementById("Defeat")
 do {
     difficolta = parseInt(prompt("scegli difficolta da 1 a 3"));
 } while (difficolta < 1 || difficolta > 3 || isNaN(difficolta));
@@ -64,6 +65,8 @@ for (let index = 1; index <= totCell; index++) {
         let isbomb = bombe.includes(index);
         if (isbomb) {
             verifica.classList.add("bg-red");
+            defeat.classList.remove("show");
+            
         }
     })
 }   
