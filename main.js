@@ -52,7 +52,7 @@ for (let index = 1; index <= totCell; index++) {
     const grid = document.getElementById("Grid");
     const cell = creazioneCelle(difficolta, bombe);
     cell.innerText = index;
-    cell.id = 'cell' + index;
+    cell.id = 'cell-' + index;
     cell.addEventListener('click', function () {
         cell.classList.toggle("bg-acqua");
     })
@@ -60,7 +60,7 @@ for (let index = 1; index <= totCell; index++) {
 }
 for (let index = 1; index <= totCell; index++) {
     let verifica = document.getElementById("cell-" + index);
-    verifica.addEventListener('click',function(){
+    verifica.addEventListener('click', function () {
         
     })
 }   
