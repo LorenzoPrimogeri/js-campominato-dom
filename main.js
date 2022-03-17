@@ -5,7 +5,7 @@ const easy = document.getElementById("Easy");
 const medium = document.getElementById("Medium");
 const hard = document.getElementById("Hard");
 
-easy.addEventListener('click', () => start(17, 'easy'));
+easy.addEventListener('click', () => start(49, 'easy'));
 medium.addEventListener('click', () => start(81, 'medium'));
 hard.addEventListener('click', () => start(100, 'hard'));
 
@@ -45,6 +45,7 @@ function checkClick(cell, i, arraybombe, totCell) {
         cell.classList.add("bg-lightgreen");
         punti = incrementaPunteggio(cell, punti);
         console.log(punti);
+        console.log(puntivincita);
         showspecchio(punti, puntivincita);
     }
 }
