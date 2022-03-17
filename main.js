@@ -5,7 +5,7 @@ const easy = document.getElementById("Easy");
 const medium = document.getElementById("Medium");
 const hard = document.getElementById("Hard");
 
-easy.addEventListener('click', () => start(17, 'easy'));
+easy.addEventListener('click', () => start(49, 'easy'));
 medium.addEventListener('click', () => start(81, 'medium'));
 hard.addEventListener('click', () => start(100, 'hard'));
 
@@ -41,7 +41,7 @@ function incrementaPunteggio(cell, punti) {
 function checkClick(cell, i, arraybombe) {
     const bomba = arraybombe.includes(i + 1);
     let celle = document.querySelectorAll(".cell");
-    let puntivincita = celle.length - 3;
+    let puntivincita = celle.length - 16;
     if (bomba) {
         let win = false;
         showspecchio(win, punti, puntivincita);
@@ -60,7 +60,6 @@ function showspecchio(condizione, punti, allcells) {
     const point = document.createElement("h3");
     specchio.appendChild(title);
     specchio.appendChild(point);
-    console.log(punti, allcells);
     if (condizione == false) {
         grid.appendChild(specchio);
         specchio.classList.add("bg-lose");
@@ -75,8 +74,6 @@ function showspecchio(condizione, punti, allcells) {
         title.innerText = "Hai vinto.";
         point.innerText = "il tuo punteggio è: " + punti;
     }
-
-
 }
 function creazioneCelle(totCell, difficolty) {
     const grid = document.getElementById("Grid");
@@ -91,7 +88,7 @@ function creazioneCelle(totCell, difficolty) {
 }
 function creazioneBombe(totCell) {
     const registro = [];
-    while (registro.length < 3) {
+    while (registro.length < 16) {
         const numero = generateRandomNumber(1, totCell);
         if (registro.includes(numero) === false) {
             registro.push(numero);
