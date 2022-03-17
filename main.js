@@ -1,77 +1,108 @@
-let righe;
-let colonne;
-let difficolta;
 let numeriEstratti = [];
-let bombe = [];
 let punti = 0;
-const grid = document.getElementById("Grid");
-let punteggio = document.getElementById("Punteggio");
 
-do {
-    difficolta = parseInt(prompt("scegli difficolta da 1 a 3"));
-} while (difficolta < 1 || difficolta > 3 || isNaN(difficolta));
-if (difficolta == 1) {
-    //con difficoltà 1 => tra 1 e 100
-    righe = 10;
-    colonne = 10;
-} else if (difficolta == 2) {
-    //con difficoltà 2 => tra 1 e 81
-    righe = 9;
-    colonne = 9;
-} else if (difficolta == 3) {
-    //con difficoltà 3 => tra 1 e 49
-    righe = 7;
-    colonne = 7;
+const easy = document.getElementById("Easy");
+const medium = document.getElementById("Medium");
+const hard = document.getElementById("Hard");
+
+easy.addEventListener('click', () => start(100, 'hard'));
+medium.addEventListener('click', () => start(81, 'medium'));
+hard.addEventListener('click', () => start(49, 'easy'));
+
+function start(totCell, difficulty) {
+    creazioneCelle(totCell, difficulty)
+    const arraybombe = creazioneBombe(totCell);
+    console.log(arraybombe);
+    addClick(arraybombe, totCell);
+    punti = 0;
 }
-let totCell = righe * colonne;
 function generateRandomNumber(min, max) {
     const range = (max - min) + 1;
     return Math.floor(Math.random() * range + min);
+}
+function mostraBombe(arraybombe) {
+    const allcells = document.querySelectorAll(".cell");
+    for (let i = 0; i < allcells.length; i++) {
+        if (arraybombe.includes(i + 1)) {
+            const cellabomba = allcells[i];
+            cellabomba.classList.add('bg-red');
+        }
+    }
+}
+function incrementaPunteggio(cell, punti) {
+    let punteggio = punti + 1;
+    cell.classList.add("no-pointer");
+    return punteggio;
+}
+function checkClick(cell, i, arraybombe, totCell) {
+    const bomba = arraybombe.includes(i + 1);
+    const puntivincita = totCell - 16;
+    if (bomba) {
+        let win = false;
+        showspecchio(win);
+        mostraBombe(arraybombe);
+    } else {
+        cell.classList.add("bg-lightgreen");
+        punti = incrementaPunteggio(cell, punti);
+        console.log(punti);
+        showspecchio(punti, puntivincita);
+    }
+}
+function showspecchio(condizione, punti, allcells) {
+    const specchio = document.createElement("div");
+    specchio.classList.add("specchio");
+    const grid = document.getElementById("Grid");
+    const title = document.createElement("h1");
+    const point = document.createElement("h3");
+    specchio.appendChild(title, point);
+    if (condizione == false) {
+        grid.appendChild(specchio);
+        specchio.classList.add("bg-lose");
+        title.classList.add("c-blue");
+        title.innerText = "Hai perso.";
+        point.innerText = "il tuo punteggio è: " + punti;
+    }
+    if (punti >= allcells) {
+        console.log(allcells);
+        specchio.classList.add("bg-win");
+        title.classList.add("c-lightgreen");
+        title.innerText = "Hai vinto.";
+        point.innerText = "il tuo punteggio è: " + punti;
+    }
+
 
 }
-function generateBombs(min, max, registro) {
+function creazioneCelle(totCell, difficolty) {
+    const grid = document.getElementById("Grid");
+    grid.innerHTML = " ";
+    for (let i = 0; i < totCell; i++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.innerText = i + 1;
+        cell.classList.add(difficolty)
+        grid.appendChild(cell);
+    }
+}
+function creazioneBombe(totCell) {
+    const registro = [];
     while (registro.length < 16) {
-        let result = generateRandomNumber(min, max)
-        if (!registro.includes(result)) {
-            registro.push(result);
+        const numero = generateRandomNumber(1, totCell);
+        if (registro.includes(numero) === false) {
+            registro.push(numero);
         }
     }
     return registro;
 }
-function creazioneCelle(difficolta) {
-    const element = document.createElement("div");
-    element.classList.add("cell")
-    if (difficolta == 1) {
-        element.classList.add("difficolta-1");
-    } else if (difficolta == 2) {
-        element.classList.add("difficolta-2");
-    } else if (difficolta == 3) {
-        element.classList.add("difficolta-3");
+function addClick(arraybombe, totCell) {
+    const allcells = document.querySelectorAll(".cell");
+    for (let i = 0; i < allcells.length; i++) {
+        const cell = allcells[i];
+        cell.addEventListener('click', () => {
+            checkClick(cell, i, arraybombe, totCell);
+        })
+
     }
-    return element;
 }
-bombe = generateBombs(1, totCell, bombe);
-console.log(bombe);
-for (let index = 1; index <= totCell; index++) {
-    const cell = creazioneCelle(difficolta, bombe);
-    cell.innerText = index;
-    cell.id = 'cell-' + index;
-    cell.addEventListener('click', function () {
-        cell.classList.add("bg-lightgreen");
-    })
-    grid.appendChild(cell);
-}
-for (let index = 1; index <= totCell; index++) {
-    let verifica = document.getElementById("cell-" + index);
-    verifica.addEventListener('click', function () {
-        const defeat = document.getElementById("Defeat")
-        let isbomb = bombe.includes(index);
-        if (isbomb) {
-            verifica.classList.add("bg-red");
-            defeat.classList.remove("d-none");
-        } else {
-            punti += 1;
-        }
-        punteggio.innerText = punti;
-    })
-}   
+
+
+
