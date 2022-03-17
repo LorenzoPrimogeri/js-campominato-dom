@@ -5,13 +5,17 @@ const easy = document.getElementById("Easy");
 const medium = document.getElementById("Medium");
 const hard = document.getElementById("Hard");
 
-easy.addEventListener('click', () => start(49, 'easy'));
+easy.addEventListener('click', () => start(17, 'easy'));
 medium.addEventListener('click', () => start(81, 'medium'));
 hard.addEventListener('click', () => start(100, 'hard'));
 
 function start(totCell, difficulty) {
     creazioneCelle(totCell, difficulty)
     const arraybombe = creazioneBombe(totCell);
+    //ordiniamo l'array per poterlo leggere in modo veloce
+    arraybombe.sort(function (a, b) {
+        return a - b;
+    });
     console.log(arraybombe);
     addClick(arraybombe, totCell);
     punti = 0;
@@ -34,19 +38,18 @@ function incrementaPunteggio(cell, punti) {
     cell.classList.add("no-pointer");
     return punteggio;
 }
-function checkClick(cell, i, arraybombe, totCell) {
+function checkClick(cell, i, arraybombe) {
     const bomba = arraybombe.includes(i + 1);
-    const puntivincita = totCell - 16;
+    let celle = document.querySelectorAll(".cell");
+    let puntivincita = celle.length - 3;
     if (bomba) {
         let win = false;
-        showspecchio(win);
+        showspecchio(win, punti, puntivincita);
         mostraBombe(arraybombe);
     } else {
         cell.classList.add("bg-lightgreen");
         punti = incrementaPunteggio(cell, punti);
-        console.log(punti);
-        console.log(puntivincita);
-        showspecchio(punti, puntivincita);
+        showspecchio(true, punti, puntivincita);
     }
 }
 function showspecchio(condizione, punti, allcells) {
@@ -55,7 +58,9 @@ function showspecchio(condizione, punti, allcells) {
     const grid = document.getElementById("Grid");
     const title = document.createElement("h1");
     const point = document.createElement("h3");
-    specchio.appendChild(title, point);
+    specchio.appendChild(title);
+    specchio.appendChild(point);
+    console.log(punti, allcells);
     if (condizione == false) {
         grid.appendChild(specchio);
         specchio.classList.add("bg-lose");
@@ -63,8 +68,8 @@ function showspecchio(condizione, punti, allcells) {
         title.innerText = "Hai perso.";
         point.innerText = "il tuo punteggio è: " + punti;
     }
-    if (punti >= allcells) {
-        console.log(allcells);
+    if (punti == allcells) {
+        grid.appendChild(specchio);
         specchio.classList.add("bg-win");
         title.classList.add("c-lightgreen");
         title.innerText = "Hai vinto.";
@@ -86,7 +91,7 @@ function creazioneCelle(totCell, difficolty) {
 }
 function creazioneBombe(totCell) {
     const registro = [];
-    while (registro.length < 16) {
+    while (registro.length < 3) {
         const numero = generateRandomNumber(1, totCell);
         if (registro.includes(numero) === false) {
             registro.push(numero);
